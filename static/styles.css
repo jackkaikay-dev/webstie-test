@@ -1,0 +1,187 @@
+:root {
+  color-scheme: light dark;
+  --bg: #f7f7f7;
+  --grid-border: #c8c8c8;
+  --accent: #2f80ed;
+  --negative: #d64545;
+  --positive: #2f9d5d;
+  --text: #1f1f1f;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app-header {
+  background: white;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--grid-border);
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+main {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.period-form {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+}
+
+.period-form select,
+.entry-form input,
+.entry-form button {
+  font-size: 1rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--grid-border);
+  border-radius: 6px;
+  background: white;
+}
+
+.entry-forms {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.entry-form {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  background: white;
+  border: 1px solid var(--grid-border);
+  border-radius: 8px;
+}
+
+.entry-form h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.entry-form label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.entry-form button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.entry-form button:hover {
+  filter: brightness(0.95);
+}
+
+.budget-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.grid-column table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border: 1px solid var(--grid-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.grid-column th,
+.grid-column td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--grid-border);
+  text-align: left;
+}
+
+.grid-column th.numeric,
+.grid-column td.numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.grid-column td.actions {
+  width: 3rem;
+  text-align: center;
+}
+
+.grid-column td.actions form {
+  margin: 0;
+}
+
+.grid-column td.actions button {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: none;
+  background: #ececec;
+  cursor: pointer;
+}
+
+.grid-column tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.grid-column tfoot th {
+  border-bottom: none;
+  background: #f0f3f7;
+  font-size: 1rem;
+}
+
+.grid-column .empty {
+  text-align: center;
+  color: #888;
+}
+
+.net-summary {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.net-card {
+  min-width: 220px;
+  padding: 1.5rem;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background: white;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.net-card.positive {
+  border-color: var(--positive);
+  color: var(--positive);
+}
+
+.net-card.negative {
+  border-color: var(--negative);
+  color: var(--negative);
+}
+
+@media (max-width: 600px) {
+  main {
+    padding: 1.5rem;
+  }
+
+  .period-form {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

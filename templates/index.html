@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}Budget Planner - {{ period }}{% endblock %}
+
+{% block content %}
+<section class="period-selector">
+  <form method="get" action="{{ url_for('index') }}" class="period-form">
+    <label for="period">Budget month</label>
+    <select id="period" name="period" onchange="this.form.submit()">
+      {% for option in periods %}
+      <option value="{{ option }}" {% if option == period %}selected{% endif %}>{{ option }}</option>
+      {% endfor %}
+    </select>
+    <noscript><button type="submit">Change</button></noscript>
+  </form>
+</section>
+
+<section class="entry-forms">
+  <form method="post" class="entry-form">
+    <input type="hidden" name="entry_type" value="income" />
+    <h2>Add income</h2>
+    <label>
+      Description
+      <input type="text" name="description" placeholder="e.g. Salary" required />
+    </label>
+    <label>
+      Amount
+      <input type="number" name="amount" min="0" step="0.01" placeholder="0.00" required />
+    </label>
+    <button type="submit">Add income</button>
+  </form>
+
+  <form method="post" class="entry-form">
+    <input type="hidden" name="entry_type" value="bill" />
+    <h2>Add bill</h2>
+    <label>
+      Description
+      <input type="text" name="description" placeholder="e.g. Rent" required />
+    </label>
+    <label>
+      Amount
+      <input type="number" name="amount" min="0" step="0.01" placeholder="0.00" required />
+    </label>
+    <button type="submit">Add bill</button>
+  </form>
+</section>
+
+<section class="budget-grid">
+  <div class="grid-column">
+    <h2>Income</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th class="numeric">Amount</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if incomes %}
+        {% for entry in incomes %}
+        <tr>
+          <td>{{ entry.description }}</td>
+          <td class="numeric">{{ '%.2f'|format(entry.amount) }}</td>
+          <td class="actions">
+            <form method="post" action="{{ url_for('delete_entry', entry_id=entry.id, period=period) }}">
+              <button type="submit" title="Delete">×</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+          <td colspan="3" class="empty">No income added yet.</td>
+        </tr>
+        {% endif %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Total income</th>
+          <th class="numeric">{{ '%.2f'|format(total_income) }}</th>
+          <th></th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="grid-column">
+    <h2>Bills</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th class="numeric">Amount</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if bills %}
+        {% for entry in bills %}
+        <tr>
+          <td>{{ entry.description }}</td>
+          <td class="numeric">{{ '%.2f'|format(entry.amount) }}</td>
+          <td class="actions">
+            <form method="post" action="{{ url_for('delete_entry', entry_id=entry.id, period=period) }}">
+              <button type="submit" title="Delete">×</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+          <td colspan="3" class="empty">No bills added yet.</td>
+        </tr>
+        {% endif %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Total bills</th>
+          <th class="numeric">{{ '%.2f'|format(total_bills) }}</th>
+          <th></th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</section>
+
+<section class="net-summary">
+  <div class="net-card {% if net >= 0 %}positive{% else %}negative{% endif %}">
+    <h2>Monthly balance</h2>
+    <p>{{ '%.2f'|format(net) }}</p>
+  </div>
+</section>
+{% endblock %}
